@@ -5,7 +5,7 @@ This script was inspired by the above xkcd strip, [this](http://preshing.com/201
 
 ## Install
 
-xkcdpass is a [shell script][bin], so drop it and the dictionary in the same place and make sure it's added
+xkcdpass is a shell script, so drop it and the dictionary in the same place and make sure it's added
 to your `$PATH`.
 
 ## Usage
