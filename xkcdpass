@@ -6,7 +6,7 @@
 # Generate passwords like Randall Munroe (http://xkcd.com/936/)
 # Default dictionary from http://www.englishclub.com/vocabulary/common-words-5000.htm
 password_length=4
-dictionary_path=dictionary
+dictionary_path=./dictionary
 word_count=`wc -l < $dictionary_path`
 
 help() {
