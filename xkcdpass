@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+#
+# xkcdpass
+# http://danielmcgraw.github.io/xkcdpass/
+#
+# Generate passwords like Randall Munroe (http://xkcd.com/936/)
+# Default dictionary from http://www.englishclub.com/vocabulary/common-words-5000.htm
+password_length=4
+dictionary_path=dictionary
+word_count=`wc -l < $dictionary_path`
+
+help() {
+	cat <<EOF
+Usage:
+  xkcdpass [-h|--help] [-l|--length=<length>] [-d|--dictionary=<path>]
+
+  -h, --help              Show help
+  -l, --length=length     Specify the password length
+  -d, --dictionary=path   Specify path to a dictionary
+EOF
+}
+
+generate() {
+	for i in `seq 1 $password_length`;
+	do
+		randnum=`perl -e "print int rand($word_count) + 1"`
+		word=`sed $randnum"q;d" $dictionary_path`
+		password="$password $word"
+	done
+	
+	echo $password
+	exit 0
+}
+
+while test $# -gt 0; do
+	case "$1" in 
+		-h|--help)
+			help
+      exit 0
+      ;;
+    -l)
+      shift
+      if test $# -gt 0; then
+      	password_length=$1
+      else
+      	echo "length not specified"
+        exit 1
+      fi
+      shift
+      ;;
+		--length*)
+      password_length=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift
+      ;;
+    -d)
+      shift
+      if test $# -gt 0; then
+      	dictionary_path=$1
+      	word_count=`wc -l < $dictionary_path`
+      else
+      	echo "dictionary path not specified"
+        exit 1
+      fi
+      shift
+      ;;
+		--dictionary*)
+      dictionary_path=`echo $1 | sed -e 's/^[^=]*=//g'`
+      word_count=`wc -l < $dictionary_path`
+      shift
+      ;;
+    *)
+			echo "Unknown option: $1"
+			help
+      exit 1
+      ;;
+  esac
+done
+
+generate
