@@ -1,0 +1,1 @@
+![The Inspiration](http://imgs.xkcd.com/comics/password_strength.png)
